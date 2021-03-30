@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-from src.k_means import Kmeans
+from src.kmeans import Kmeans
 
 if __name__ == '__main__':
     img = cv2.imread("./sample_imgs/lena.png")
