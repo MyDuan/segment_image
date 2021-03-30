@@ -2,7 +2,7 @@
 
 ### Abstract
 
-- A lib can be used to segment image
+- A lib can be used to segment image https://pypi.org/project/segment-image/
 - The first version just has k_means algorithm.
 
 ### install
