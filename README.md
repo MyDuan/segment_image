@@ -20,6 +20,10 @@ $ pip install segment-image
 img = cv2.imread("./sample_imgs/lena.png")
 k = 2 # number of segments
 k_means = segment_image.Kmeans(img, k)
+iteration = 10
+convergence_radius = 1e-6
+k_means.run(iteration, convergence_radius)
+
 ```
 
 ### example
