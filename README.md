@@ -7,7 +7,7 @@
 
 ### install
 
-- python >= 3.6.5
+- python >= 3.6
 - install
 ```
 $ pip install segment-image
@@ -17,6 +17,9 @@ $ pip install segment-image
 ### how to use
 
 ```
+import segment_image
+import cv2
+
 img = cv2.imread("./sample_imgs/lena.png")
 k = 2 # number of segments
 k_means = segment_image.Kmeans(img, k)
@@ -33,3 +36,4 @@ k_means.run(iteration, convergence_radius)
 
 ![kmeans_re](https://user-images.githubusercontent.com/19246998/113019886-04c81500-91bd-11eb-8075-016c64f5161b.png)
 
+![pig_re](https://user-images.githubusercontent.com/19246998/113070146-e124bf00-91fc-11eb-87a8-1cff0064288d.png)
