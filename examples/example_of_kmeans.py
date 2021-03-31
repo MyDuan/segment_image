@@ -20,3 +20,4 @@ if __name__ == '__main__':
     re = cv2.hconcat([img, result])
     cv2.imshow("kmeans result", re)
     cv2.waitKey(0)
+    cv2.destroyAllWindows()
