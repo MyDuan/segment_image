@@ -14,7 +14,12 @@ $ pip install segment-image
 ```
 
 
-### how to use
+### how to use 
+
+- `cv2`need to be installed by
+`
+pip install opencv-python
+`
 
 ```
 import segment_image
