@@ -40,5 +40,3 @@ k_means.run(iteration, convergence_radius)
 - results:
 
 ![kmeans_re](https://user-images.githubusercontent.com/19246998/113019886-04c81500-91bd-11eb-8075-016c64f5161b.png)
-
-![pig_re](https://user-images.githubusercontent.com/19246998/113070146-e124bf00-91fc-11eb-87a8-1cff0064288d.png)
