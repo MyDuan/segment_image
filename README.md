@@ -35,14 +35,14 @@ k_means.run(iteration, convergence_radius)
 
 ```
 
-- gvf_snake
+- gvf_snake (The speed is so slow, so I use small `max_iteration_gvf` and `max_iteration_gvf`. if you want to get great results, pleas adjust them)
 ```
 import segment_image
 import cv2
 
 img = cv2.imread("./sample_imgs/star.png")
-max_iteration_gvf = 1000
-max_iteration_snake = 1000
+max_iteration_gvf = 10
+max_iteration_snake = 10
 gvf_snake = segment_image.GVFSnake(img, max_iteration_gvf, max_iteration_snake)
 gvf_snake.run(save=True)
 
