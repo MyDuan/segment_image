@@ -33,8 +33,8 @@ class Contour:
             pi = 3.1415926
             theta = 2.0 * pi / num_points
             for i in range(num_points):
-                self.points[i][0] = center[0] + 1.5 * radius * math.cos(i * theta)
-                self.points[i][1] = center[1] + 1.5 * radius * math.sin(i * theta)
+                self.points[i][0] = center[0] + radius * math.cos(i * theta)
+                self.points[i][1] = center[1] + radius * math.sin(i * theta)
 
     def get_num_points(self):
         return self.points.shape[0]
@@ -77,7 +77,7 @@ class Snake(GradientDecentBase):
         gvf_normalized = np.zeros((self.contour.get_num_points(), 2))
         cv2.normalize(self.gvf_contour_, gvf_normalized, -1, 1, cv2.NORM_MINMAX)
         inv = np.linalg.inv(self.internal_force_matrix_)
-        new_points = np.matmul(inv, (self.contour.points + self.param_snake_.step_size * gvf_normalized * 1))
+        new_points = np.matmul(inv, (self.contour.points + self.param_snake_.step_size * gvf_normalized))
         self.contour.points = new_points
 
     def compute_energy(self):
@@ -104,9 +104,9 @@ if __name__ == '__main__':
     img = cv2.GaussianBlur(img, (3, 3), sigmaX=3, sigmaY=3)
     grad_original_x = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
     grad_original_y = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
-    param_gvf = ParamGVF(2e8, 5e-10)
+    param_gvf = ParamGVF(1e8, 1e-9)
     gvf = GVF(param_gvf, grad_original_x, grad_original_y)
-    max_iteration_gvf = 200
+    max_iteration_gvf = 20000
     gvf.run(max_iteration_gvf)
     gvf_result = gvf.get_result_gvf()
     display_gvf(gvf_result[0], gvf_result[1], 0, True)
@@ -119,7 +119,7 @@ if __name__ == '__main__':
     contour = Contour(max_x, max_y, radius, center, num_points)
     param_snake = ParamSnake(0.1, 0.1, 0.05)
     snake_model = Snake(img, gvf_result[0], gvf_result[1], contour, param_snake)
-    snake_model.run(100)
+    snake_model.run(1000)
     result_contour = snake_model.contour
-    display_contour(img, result_contour, 0)
+    display_contour(img, result_contour, 0, True)
 

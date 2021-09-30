@@ -3,7 +3,7 @@ import numpy as np
 
 
 def draw_optical_flow(fx, fy, cflowmap, step, scaleFactor, color):
-    for r in range(cflowmap.shape[0]):
+    for r in range(0, cflowmap.shape[0], step):
         for c in range(cflowmap.shape[1]):
             fxy = np.zeros(2)
             fxy[0] = fx[r][c]
@@ -23,19 +23,21 @@ def display_gvf(fx, fy, delay, save=False):
     cv2.normalize(disp_fx, disp_fx, -1, 1, cv2.NORM_MINMAX)
     cv2.normalize(disp_fy, disp_fy, -1, 1, cv2.NORM_MINMAX)
     draw_optical_flow(disp_fx, disp_fy, cflowmap, step, scaleFactor, color)
-    cv2.imshow("img", cflowmap)
-    cv2.waitKey(delay)
+    #cv2.imshow("img", cflowmap)
+    #cv2.waitKey(delay)
     if save:
         cv2.imwrite("gvf_display.png", cflowmap)
 
 
-def display_contour(img, contour, delay):
+def display_contour(img, contour, delay, save=False):
     img_rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
     for i in range(contour.get_num_points() - 1):
         cv2.line(img_rgb, (int(contour.points[i][0]), int(contour.points[i][1])),
-                 (int(contour.points[i+1][0]), int(contour.points[i+1][1])), 15, 4)
+                 (int(contour.points[i+1][0]), int(contour.points[i+1][1])), (0, 0, 255), 4, cv2.LINE_AA)
     cv2.line(img_rgb, (int(contour.points[0][0]), int(contour.points[0][1])),
              (int(contour.points[contour.get_num_points() - 1][0]), int(contour.points[contour.get_num_points() - 1][1])),
              (0, 0, 255), 4, cv2.LINE_AA)
-    cv2.imshow("snake", img_rgb)
-    cv2.waitKey(delay)
+    #cv2.imshow("snake", img_rgb)
+    #cv2.waitKey(delay)
+    if save:
+        cv2.imwrite("snake_display.png", img_rgb)

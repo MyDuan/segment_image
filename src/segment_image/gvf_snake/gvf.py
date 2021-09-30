@@ -4,7 +4,7 @@ import cv2
 
 
 class ParamGVF:
-    def __init__(self, smooth_term_weight=1e8, init_step_size=1e-7):
+    def __init__(self, smooth_term_weight, init_step_size):
         self.smooth_term_weight = smooth_term_weight
         self.init_step_size = init_step_size
 
@@ -25,19 +25,21 @@ class GVF(GradientDecentBase):
         self.gvf_initial_x_ = cv2.Sobel(mag_original, cv2.CV_64F, 1, 0, ksize=3)
         self.gvf_initial_y_ = cv2.Sobel(mag_original, cv2.CV_64F, 0, 1, ksize=3)
 
+        self.gvf_x_ = self.gvf_initial_x_
+        self.gvf_y_ = self.gvf_initial_y_
+
         # compute the date term weight
         square_gvf_initial_x = np.power(self.gvf_initial_x_, 2)
         square_gvf_initial_y = np.power(self.gvf_initial_y_, 2)
         self.data_term_weight_ = square_gvf_initial_x + square_gvf_initial_y
 
     def initialize(self):
-        self.gvf_x_ = self.gvf_initial_x_
-        self.gvf_y_ = self.gvf_initial_y_
+        pass
 
     def update(self):
         self.back_up_state()
         self.laplacian_gvf_x_ = cv2.Laplacian(self.last_gvf_x_, cv2.CV_64F)
-        self.laplacian_gvf_y_ = cv2.Laplacian(self.last_gvf_x_, cv2.CV_64F)
+        self.laplacian_gvf_y_ = cv2.Laplacian(self.last_gvf_y_, cv2.CV_64F)
         self.gvf_x_ = self.last_gvf_x_ + self.param_gvf.init_step_size \
                       * (self.param_gvf.smooth_term_weight * self.laplacian_gvf_x_
                       - (self.last_gvf_x_ - self.gvf_initial_x_) * self.data_term_weight_)
@@ -68,6 +70,10 @@ class GVF(GradientDecentBase):
                 delta_y = self.gvf_y_[i][j] - self.gvf_initial_y_[i][j]
                 delta_f = self.data_term_weight_[i][j]
                 data_term_energy += delta_f * (delta_x * delta_x + delta_y * delta_y)
+        print("smooth_term_energy------------")
+        print(smooth_term_energy)
+        print("data_term_energy---------------")
+        print(data_term_energy)
         return smooth_term_energy + data_term_energy
 
     def roll_back_state(self):

@@ -16,6 +16,8 @@ class GradientDecentBase:
             self.update()
             print("finish update: " + str(current_iter))
             new_energy = self.compute_energy()
+            print("new_energy" + str(new_energy))
+            print("====================")
             if new_energy < self.last_energy_:
                 self.last_energy_ = new_energy
 
