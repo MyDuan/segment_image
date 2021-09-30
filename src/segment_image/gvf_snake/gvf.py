@@ -11,8 +11,8 @@ class ParamGVF:
 
 class GVF(GradientDecentBase):
     def __init__(self, param_gvf, grad_original_x, grad_original_y):
+        GradientDecentBase.__init__(self, param_gvf.init_step_size)
         self.param_gvf = param_gvf
-        GradientDecentBase.__init__(self, self.param_gvf.init_step_size)
         self.data_term_weight_ = np.zeros(grad_original_x.shape)
         self.laplacian_gvf_x_ = np.zeros(grad_original_x.shape)
         self.laplacian_gvf_y_ = np.zeros(grad_original_y.shape)
