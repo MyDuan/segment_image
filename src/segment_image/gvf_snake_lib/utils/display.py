@@ -37,7 +37,7 @@ def display_contour(img, contour, delay, save=False):
     cv2.line(img_rgb, (int(contour.points[0][0]), int(contour.points[0][1])),
              (int(contour.points[contour.get_num_points() - 1][0]), int(contour.points[contour.get_num_points() - 1][1])),
              (0, 0, 255), 4, cv2.LINE_AA)
-    #cv2.imshow("snake", img_rgb)
-    #cv2.waitKey(delay)
+    cv2.imshow("snake", img_rgb)
+    cv2.waitKey(delay)
     if save:
         cv2.imwrite("snake_display.png", img_rgb)

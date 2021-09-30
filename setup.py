@@ -4,8 +4,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="segment_image",
-    version="0.0.2",
+    name="segment_image_test",
+    version="0.0.12",
     author="yu.duan",
     author_email="dy1226130575@163.com",
     description="A package used to segment an image",

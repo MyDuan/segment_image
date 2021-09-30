@@ -1,7 +1,7 @@
 import cv2
-from gvf_snake.gvf import ParamGVF, GVF
-from gvf_snake.snake import Contour, ParamSnake, Snake
-from gvf_snake.utils.display import display_contour, display_gvf
+from gvf_snake_lib import ParamGVF, GVF
+from gvf_snake_lib import Contour, ParamSnake, Snake
+from gvf_snake_lib import display_contour, display_gvf
 
 
 class GVFSnake:
