@@ -2,7 +2,7 @@ import segment_image
 import cv2
 
 if __name__ == '__main__':
-    img = cv2.imread("./sample_imgs/lena.png")
+    img = cv2.imread("./sample_imgs/star.png", cv2.IMREAD_GRAYSCALE)
     max_iteration_gvf = 1000
     max_iteration_snake = 1000
     gvf_snake = segment_image.GVFSnake(img, max_iteration_gvf, max_iteration_snake)

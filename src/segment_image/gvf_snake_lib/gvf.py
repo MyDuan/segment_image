@@ -70,10 +70,7 @@ class GVF(GradientDecentBase):
                 delta_y = self.gvf_y_[i][j] - self.gvf_initial_y_[i][j]
                 delta_f = self.data_term_weight_[i][j]
                 data_term_energy += delta_f * (delta_x * delta_x + delta_y * delta_y)
-        print("smooth_term_energy------------")
-        print(smooth_term_energy)
-        print("data_term_energy---------------")
-        print(data_term_energy)
+
         return smooth_term_energy + data_term_energy
 
     def roll_back_state(self):
