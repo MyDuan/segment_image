@@ -70,7 +70,6 @@ class GVF(GradientDecentBase):
                 data_term_energy += delta_f * (delta_x * delta_x + delta_y * delta_y)
                 break
             break
-        print(smooth_term_energy + data_term_energy)
         return smooth_term_energy + data_term_energy
 
     def roll_back_state(self):
@@ -86,18 +85,11 @@ class GVF(GradientDecentBase):
 
 
 if __name__ == '__main__':
-    img = cv2.imread("../../../sample_imgs/lena.png")
-    '''
-    print(img.shape)
-    cv2.imshow("img", img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    '''
-
+    img = cv2.imread("../../../sample_imgs/lena.png", cv2.IMREAD_GRAYSCALE)
     img = cv2.GaussianBlur(img, (3, 3), sigmaX=3, sigmaY=3)
     grad_original_x = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
     grad_original_y = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
-    param_gvf = ParamGVF()
+    param_gvf = ParamGVF(2e8, 5e-10)
     gvf = GVF(param_gvf, grad_original_x, grad_original_y)
     max_iteration_gvf = 5e2
     gvf.run(max_iteration_gvf)

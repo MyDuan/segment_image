@@ -9,8 +9,6 @@ class GradientDecentBase:
     def run(self, max_iteration):
         self.initialize()
         self.last_energy_ = self.compute_energy()
-        print("base---")
-        print(self.last_energy_)
         current_iter = 0
         while not self.is_terminate(current_iter, max_iteration):
             current_iter += 1
