@@ -1,6 +1,6 @@
-from gradient_descent_base import GradientDecentBase
-from gvf import ParamGVF, GVF
-from utils.display import display_contour, display_gvf
+from .gradient_descent_base import GradientDecentBase
+from .gvf import ParamGVF, GVF
+from .utils.display import display_contour, display_gvf
 import numpy as np
 import math
 import cv2

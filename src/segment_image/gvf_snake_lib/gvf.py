@@ -1,4 +1,4 @@
-from gradient_descent_base import GradientDecentBase
+from .gradient_descent_base import GradientDecentBase
 import numpy as np
 import cv2
 

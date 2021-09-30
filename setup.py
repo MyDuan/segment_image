@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="segment_image_test",
-    version="0.0.12",
+    version="0.0.14",
     author="yu.duan",
     author_email="dy1226130575@163.com",
     description="A package used to segment an image",
