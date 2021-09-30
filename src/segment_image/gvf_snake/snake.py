@@ -1,5 +1,6 @@
 from gradient_descent_base import GradientDecentBase
 from gvf import ParamGVF, GVF
+from utils.display import display_contour, display_gvf
 import numpy as np
 import math
 import cv2
@@ -58,10 +59,10 @@ class Snake(GradientDecentBase):
         identity_down = np.roll(identity, 1, axis=0)
         identity_up = np.roll(identity, -1, axis=0)
         self.deriv_1_ = identity_up - identity
-        self.deriv_2_ = self.deriv_1_ - identity_down * self.deriv_1_
+        self.deriv_2_ = self.deriv_1_ - np.matmul(identity_down, self.deriv_1_)
         self.A_ = self.deriv_2_
-        self.deriv_3_ = identity_up * self.A_ - self.A_
-        self.deriv_4_ = self.deriv_3_ - identity_down * self.deriv_3_
+        self.deriv_3_ = np.matmul(identity_up, self.A_) - self.A_
+        self.deriv_4_ = self.deriv_3_ - np.matmul(identity_down, self.deriv_3_)
         self.B_ = self.deriv_4_
         self.internal_force_matrix_ = identity - self.param_snake_.step_size * (
                 self.param_snake_.alpha * self.A_ - self.param_snake_.beta * self.B_)
@@ -76,13 +77,13 @@ class Snake(GradientDecentBase):
         gvf_normalized = np.zeros((self.contour.get_num_points(), 2))
         cv2.normalize(self.gvf_contour_, gvf_normalized, -1, 1, cv2.NORM_MINMAX)
         inv = np.linalg.inv(self.internal_force_matrix_)
-        new_points = inv * (self.contour.points + self.param_snake_.step_size * gvf_normalized * 1)
+        new_points = np.matmul(inv, (self.contour.points + self.param_snake_.step_size * gvf_normalized * 1))
         self.contour.points = new_points
 
     def compute_energy(self):
         points = self.contour.points
-        delta1_square = np.power(self.deriv_1_ * points, 2)
-        delta2_square = np.power(self.deriv_2_ * points, 2)
+        delta1_square = np.power(np.matmul(self.deriv_1_, points), 2)
+        delta2_square = np.power(np.matmul(self.deriv_2_, points), 2)
         abs_gvf_contour = np.abs(self.gvf_contour_)
         energy = 0
         for i in range(points.shape[0]):
@@ -99,15 +100,16 @@ class Snake(GradientDecentBase):
 
 
 if __name__ == '__main__':
-    img = cv2.imread("../../../sample_imgs/lena.png", cv2.IMREAD_GRAYSCALE)
+    img = cv2.imread("../../../sample_imgs/star.png", cv2.IMREAD_GRAYSCALE)
     img = cv2.GaussianBlur(img, (3, 3), sigmaX=3, sigmaY=3)
     grad_original_x = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
     grad_original_y = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
     param_gvf = ParamGVF(2e8, 5e-10)
     gvf = GVF(param_gvf, grad_original_x, grad_original_y)
-    max_iteration_gvf = 5e2
+    max_iteration_gvf = 200
     gvf.run(max_iteration_gvf)
     gvf_result = gvf.get_result_gvf()
+    display_gvf(gvf_result[0], gvf_result[1], 0, True)
 
     max_x = gvf_result[0].shape[0]
     max_y = gvf_result[1].shape[1]
@@ -117,5 +119,7 @@ if __name__ == '__main__':
     contour = Contour(max_x, max_y, radius, center, num_points)
     param_snake = ParamSnake(0.1, 0.1, 0.05)
     snake_model = Snake(img, gvf_result[0], gvf_result[1], contour, param_snake)
-    snake_model.run(10)
+    snake_model.run(100)
     result_contour = snake_model.contour
+    display_contour(img, result_contour, 0)
+

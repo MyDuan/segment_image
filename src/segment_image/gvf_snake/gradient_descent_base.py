@@ -11,10 +11,12 @@ class GradientDecentBase:
         self.last_energy_ = self.compute_energy()
         current_iter = 0
         while not self.is_terminate(current_iter, max_iteration):
+            print("start update: " + str(current_iter))
             current_iter += 1
             self.update()
+            print("finish update: " + str(current_iter))
             new_energy = self.compute_energy()
-            if (new_energy < self.last_energy_):
+            if new_energy < self.last_energy_:
                 self.last_energy_ = new_energy
 
     def is_terminate(self, current_iter, max_iteration):
