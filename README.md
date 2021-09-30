@@ -21,6 +21,7 @@ $ pip install segment-image
 pip install opencv-python
 `
 
+- Kmeans
 ```
 import segment_image
 import cv2
@@ -34,9 +35,29 @@ k_means.run(iteration, convergence_radius)
 
 ```
 
+- gvf_snake
+```
+import segment_image
+import cv2
+
+img = cv2.imread("./sample_imgs/star.png")
+max_iteration_gvf = 1000
+max_iteration_snake = 1000
+gvf_snake = segment_image.GVFSnake(img, max_iteration_gvf, max_iteration_snake)
+gvf_snake.run(save=True)
+
+```
+
 ### example
 
 - https://github.com/MyDuan/segment_image/blob/main/examples/example_of_kmeans.py
+- https://github.com/MyDuan/segment_image/blob/main/examples/example_of_gvf_snake.py
 - results:
+    - kmeans:
 
-![kmeans_re](https://user-images.githubusercontent.com/19246998/113019886-04c81500-91bd-11eb-8075-016c64f5161b.png)
+    ![kmeans_re](https://user-images.githubusercontent.com/19246998/113019886-04c81500-91bd-11eb-8075-016c64f5161b.png)
+
+    - gvf_snake
+    <img width="300" alt="star_re" src="https://user-images.githubusercontent.com/19246998/135444069-82e60a2d-7f99-4266-990e-5c4e99ccf76b.png">
+
+    
